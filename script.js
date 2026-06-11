@@ -1,5 +1,24 @@
 const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".nav-links");
+const paletteButtons = document.querySelectorAll(".palette-swatch");
+const savedTheme = localStorage.getItem("portfolio-theme") || "gold";
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem("portfolio-theme", theme);
+
+  paletteButtons.forEach((button) => {
+    const isActive = button.dataset.themeValue === theme;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+applyTheme(savedTheme);
+
+paletteButtons.forEach((button) => {
+  button.addEventListener("click", () => applyTheme(button.dataset.themeValue));
+});
 
 menuButton.addEventListener("click", () => {
   const isOpen = navigation.classList.toggle("open");
